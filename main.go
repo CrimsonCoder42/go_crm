@@ -13,6 +13,12 @@ func setupRoutes(app *fiber.App) {
 	app.Get("/api/v1/lead:id",lead.GetLead)
 	app.Post("/api/v1/lead",lead.NewLead)
 	app.Delete("/api/v1/lead",lead.DeleteLead)
+
+	// routes for notes 
+	app.Get("/api/v1/lead/:id/notes", lead.GetNotesForLead)
+	app.Post("/api/v1/lead/:id/note", lead.AddNoteToLead)
+	app.Put("/api/v1/lead/:id/note/:noteId", lead.UpdateNote)
+	app.Delete("/api/v1/lead/:id/note/:noteId", lead.DeleteNote)
 }
 
 
@@ -33,6 +39,6 @@ func initDatabase() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	database.DBConn.AutoMigrate(&lead.Lead{})
+	database.DBConn.AutoMigrate(&lead.Lead{}, &lead.Note{})
 }
 
